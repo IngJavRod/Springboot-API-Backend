@@ -13,5 +13,8 @@
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:3.5.2" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-context:6.2.9" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-beans:6.2.9" level="project" />
+    <orderEntry type="library" name="Gradle: jakarta.persistence:jakarta.persistence-api:3.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-web:6.2.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-commons:3.5.2" level="project" />
   </component>
 </module>
