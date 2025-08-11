@@ -15,7 +15,18 @@ public class ClientesService {
     @Autowired
     public ClientesService(ClientesRepository clientesRepository){this.clientesRepository = clientesRepository;}
 
+    //Metodo para recuperar todos los clientes
     public List<Clientes> getClientes(){
         return clientesRepository.findAll();
+    }
+
+    //Metodo para crear un nuevo cliente
+    public Clientes addCliente(Clientes newClient){
+        return clientesRepository.save(newClient);
+    }
+
+    // Metodo para recuperar a Cliente por email
+    public Clientes findByCorreoCliente(String correoCliente) {
+        return clientesRepository.findByCorreoCliente(correoCliente);
     }
 }
