@@ -10,8 +10,7 @@ public class CarritoId implements Serializable {
     private Integer idPedido;
     private Integer idProducto;
 
-    public CarritoId(){
-    }
+    public CarritoId() {}
 
     public CarritoId(Integer idPedido, Integer idProducto) {
         this.idPedido = idPedido;

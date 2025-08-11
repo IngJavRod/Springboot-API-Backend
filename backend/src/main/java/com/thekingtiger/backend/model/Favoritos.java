@@ -1,5 +1,7 @@
 package com.thekingtiger.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -12,17 +14,18 @@ public class Favoritos {
     private FavoritosId id;
 
     @ManyToOne
-    @MapsId("idClientes")
-    @JoinColumn(name = "id_clientes")
+    @MapsId("idCliente")
+    @JoinColumn(name = "id_cliente")
+    @JsonBackReference(value = "cliente-favoritos")
     private Clientes cliente;
 
     @ManyToOne
     @MapsId("idProducto")
     @JoinColumn(name = "id_producto")
+    @JsonBackReference(value = "producto-favoritos")
     private Productos producto;
 
-    public Favoritos () {
-    }
+    public Favoritos(){}
 
     public Favoritos(FavoritosId id, Clientes cliente, Productos producto) {
         this.id = id;

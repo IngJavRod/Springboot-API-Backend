@@ -1,6 +1,7 @@
 package com.thekingtiger.backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -15,23 +16,28 @@ public class Carrito {
     @ManyToOne
     @MapsId("idPedido")
     @JoinColumn(name = "id_pedido")
+    @JsonBackReference(value = "pedido-carrito")
     private Pedidos pedido;
 
     @ManyToOne
     @MapsId("idProducto")
     @JoinColumn(name = "id_producto")
+    @JsonBackReference(value = "producto-carrito")
     private Productos producto;
 
+    @Column(name = "talla", nullable = false, length = 10)
+    private String talla;
+
     @Column(name = "cantidad", nullable = false)
-    private Integer cantidad = 1;
+    private Integer cantidad;
 
-    public Carrito(){
-    }
+    public Carrito(){}
 
-    public Carrito(CarritoId id, Pedidos pedido, Productos producto, Integer cantidad) {
+    public Carrito(CarritoId id, Pedidos pedido, Productos producto, String talla, Integer cantidad) {
         this.id = id;
         this.pedido = pedido;
         this.producto = producto;
+        this.talla = talla;
         this.cantidad = cantidad;
     }
 
@@ -59,6 +65,14 @@ public class Carrito {
         this.producto = producto;
     }
 
+    public String getTalla() {
+        return talla;
+    }
+
+    public void setTalla(String talla) {
+        this.talla = talla;
+    }
+
     public Integer getCantidad() {
         return cantidad;
     }
@@ -73,6 +87,7 @@ public class Carrito {
                 "id=" + id +
                 ", pedido=" + pedido +
                 ", producto=" + producto +
+                ", talla='" + talla + '\'' +
                 ", cantidad=" + cantidad +
                 '}';
     }
@@ -80,11 +95,11 @@ public class Carrito {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Carrito carrito)) return false;
-        return Objects.equals(id, carrito.id) && Objects.equals(pedido, carrito.pedido) && Objects.equals(producto, carrito.producto) && Objects.equals(cantidad, carrito.cantidad);
+        return Objects.equals(id, carrito.id) && Objects.equals(pedido, carrito.pedido) && Objects.equals(producto, carrito.producto) && Objects.equals(talla, carrito.talla) && Objects.equals(cantidad, carrito.cantidad);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, pedido, producto, cantidad);
+        return Objects.hash(id, pedido, producto, talla, cantidad);
     }
 }

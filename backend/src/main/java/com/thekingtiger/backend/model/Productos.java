@@ -1,70 +1,75 @@
 package com.thekingtiger.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="productos")
+@Table(name = "productos")
 public class Productos {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_productos")
     private Integer idProductos;
 
-    @Column(name = "nom_prod", length = 100, nullable = false)
-    private String nombreProducto;
+    @Column(name = "nom_prod", nullable = false, length = 100)
+    private String nomProd;
 
-    @Column(name = "precio", precision = 10, scale = 2, nullable = false)
-    private Integer precioProducto;
+    @Column(name = "imagenes", columnDefinition = "TEXT")
+    private String imagenes;
 
-    @Column(nullable = false)
-    private Integer stock;
-
-    @Column(nullable = false)
-    private Integer descuento;
-
-    @Column(length = 100, nullable = false)
+    @Column(name = "descripcion", columnDefinition = "TEXT", nullable = false)
     private String descripcion;
 
-    @Column(nullable = false)
-    private Integer cant;
+    @Column(name = "chica", nullable = false)
+    private Integer chica;
 
-    // Relaciones
-    @ManyToOne
-    @JoinColumn(name = "id_categoria", nullable = false)
-    private Categoria idCategoria;
+    @Column(name = "mediana", nullable = false)
+    private Integer mediana;
 
-    @OneToMany(mappedBy = "producto")
-    private List<ProductoTalla> productoTallas;
+    @Column(name = "grande", nullable = false)
+    private Integer grande;
 
-    @OneToMany(mappedBy = "producto")
-    private List<Imagenes> imagenes;
+    @Column(name = "unitalla", nullable = false)
+    private Integer unitalla;
 
-    @OneToMany(mappedBy = "producto")
-    private List<Carrito> carrito;
+    @Column(name = "precio", nullable = false)
+    private BigDecimal precio;
 
-    @OneToMany(mappedBy = "producto")
+    @Column(name = "categoria", nullable = false, length = 45)
+    private String categoria;
+
+    @Column(name = "descuento")
+    private Integer descuento;
+
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "producto-carrito")
+    private List<Carrito> carritos;
+
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "producto-favoritos")
     private List<Favoritos> favoritos;
 
-    //Generamos un constructor vacio para JPA, clase de Java POJO
-    public Productos() {
+    public Productos(){}
 
-    }
-
-    public Productos(Integer idProductos, String nombreProducto, Integer precioProducto, Integer stock, Integer descuento, String descripcion, Integer cant, Categoria idCategoria, List<ProductoTalla> productoTallas, List<Imagenes> imagenes, List<Carrito> carrito, List<Favoritos> favoritos) {
+    public Productos(Integer idProductos, String nomProd, String imagenes, String descripcion, Integer chica, Integer mediana, Integer grande, Integer unitalla, BigDecimal precio, String categoria, Integer descuento, List<Carrito> carritos, List<Favoritos> favoritos) {
         this.idProductos = idProductos;
-        this.nombreProducto = nombreProducto;
-        this.precioProducto = precioProducto;
-        this.stock = stock;
-        this.descuento = descuento;
-        this.descripcion = descripcion;
-        this.cant = cant;
-        this.idCategoria = idCategoria;
-        this.productoTallas = productoTallas;
+        this.nomProd = nomProd;
         this.imagenes = imagenes;
-        this.carrito = carrito;
+        this.descripcion = descripcion;
+        this.chica = chica;
+        this.mediana = mediana;
+        this.grande = grande;
+        this.unitalla = unitalla;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.descuento = descuento;
+        this.carritos = carritos;
         this.favoritos = favoritos;
     }
 
@@ -76,36 +81,20 @@ public class Productos {
         this.idProductos = idProductos;
     }
 
-    public String getNombreProducto() {
-        return nombreProducto;
+    public String getNomProd() {
+        return nomProd;
     }
 
-    public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
+    public void setNomProd(String nomProd) {
+        this.nomProd = nomProd;
     }
 
-    public Integer getPrecioProducto() {
-        return precioProducto;
+    public String getImagenes() {
+        return imagenes;
     }
 
-    public void setPrecioProducto(Integer precioProducto) {
-        this.precioProducto = precioProducto;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Integer getDescuento() {
-        return descuento;
-    }
-
-    public void setDescuento(Integer descuento) {
-        this.descuento = descuento;
+    public void setImagenes(String imagenes) {
+        this.imagenes = imagenes;
     }
 
     public String getDescripcion() {
@@ -116,44 +105,68 @@ public class Productos {
         this.descripcion = descripcion;
     }
 
-    public Integer getCant() {
-        return cant;
+    public Integer getChica() {
+        return chica;
     }
 
-    public void setCant(Integer cant) {
-        this.cant = cant;
+    public void setChica(Integer chica) {
+        this.chica = chica;
     }
 
-    public Categoria getIdCategoria() {
-        return idCategoria;
+    public Integer getMediana() {
+        return mediana;
     }
 
-    public void setIdCategoria(Categoria idCategoria) {
-        this.idCategoria = idCategoria;
+    public void setMediana(Integer mediana) {
+        this.mediana = mediana;
     }
 
-    public List<ProductoTalla> getProductoTallas() {
-        return productoTallas;
+    public Integer getGrande() {
+        return grande;
     }
 
-    public void setProductoTallas(List<ProductoTalla> productoTallas) {
-        this.productoTallas = productoTallas;
+    public void setGrande(Integer grande) {
+        this.grande = grande;
     }
 
-    public List<Imagenes> getImagenes() {
-        return imagenes;
+    public Integer getUnitalla() {
+        return unitalla;
     }
 
-    public void setImagenes(List<Imagenes> imagenes) {
-        this.imagenes = imagenes;
+    public void setUnitalla(Integer unitalla) {
+        this.unitalla = unitalla;
     }
 
-    public List<Carrito> getCarrito() {
-        return carrito;
+    public BigDecimal getPrecio() {
+        return precio;
     }
 
-    public void setCarrito(List<Carrito> carrito) {
-        this.carrito = carrito;
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public Integer getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(Integer descuento) {
+        this.descuento = descuento;
+    }
+
+    public List<Carrito> getCarritos() {
+        return carritos;
+    }
+
+    public void setCarritos(List<Carrito> carritos) {
+        this.carritos = carritos;
     }
 
     public List<Favoritos> getFavoritos() {
@@ -168,19 +181,29 @@ public class Productos {
     public String toString() {
         return "Productos{" +
                 "idProductos=" + idProductos +
-                ", nombreProducto='" + nombreProducto + '\'' +
-                ", precioProducto=" + precioProducto +
-                ", stock=" + stock +
-                ", descuento=" + descuento +
+                ", nomProd='" + nomProd + '\'' +
+                ", imagenes='" + imagenes + '\'' +
                 ", descripcion='" + descripcion + '\'' +
-                ", cant=" + cant +
-                ", idCategoria=" + idCategoria +
-                ", productoTallas=" + productoTallas +
-                ", imagenes=" + imagenes +
-                ", carrito=" + carrito +
+                ", chica=" + chica +
+                ", mediana=" + mediana +
+                ", grande=" + grande +
+                ", unitalla=" + unitalla +
+                ", precio=" + precio +
+                ", categoria='" + categoria + '\'' +
+                ", descuento=" + descuento +
+                ", carritos=" + carritos +
                 ", favoritos=" + favoritos +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Productos productos)) return false;
+        return Objects.equals(idProductos, productos.idProductos) && Objects.equals(nomProd, productos.nomProd) && Objects.equals(imagenes, productos.imagenes) && Objects.equals(descripcion, productos.descripcion) && Objects.equals(chica, productos.chica) && Objects.equals(mediana, productos.mediana) && Objects.equals(grande, productos.grande) && Objects.equals(unitalla, productos.unitalla) && Objects.equals(precio, productos.precio) && Objects.equals(categoria, productos.categoria) && Objects.equals(descuento, productos.descuento) && Objects.equals(carritos, productos.carritos) && Objects.equals(favoritos, productos.favoritos);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProductos, nomProd, imagenes, descripcion, chica, mediana, grande, unitalla, precio, categoria, descuento, carritos, favoritos);
+    }
 }
