@@ -2,50 +2,72 @@ package com.thekingtiger.backend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="Productos")
+@Table(name="productos")
 public class Productos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idProductos")
+    @Column(name = "id_productos")
     private Integer idProductos;
 
-    @Column(length = 45, nullable = false)
+    @Column(name = "nom_prod", length = 100, nullable = false)
     private String nombreProducto;
 
-    @Column(nullable = false)
+    @Column(name = "precio", precision = 10, scale = 2, nullable = false)
     private Integer precioProducto;
 
     @Column(nullable = false)
     private Integer stock;
 
     @Column(nullable = false)
-    private Integer idCategoria;
-
-    @Column(nullable = false)
     private Integer descuento;
 
     @Column(length = 100, nullable = false)
-    private String descripcionProducto;
+    private String descripcion;
+
+    @Column(nullable = false)
+    private Integer cant;
+
+    // Relaciones
+    @ManyToOne
+    @JoinColumn(name = "id_categoria", nullable = false)
+    private Categoria idCategoria;
+
+    @OneToMany(mappedBy = "producto")
+    private List<ProductoTalla> productoTallas;
+
+    @OneToMany(mappedBy = "producto")
+    private List<Imagenes> imagenes;
+
+    @OneToMany(mappedBy = "producto")
+    private List<Carrito> carrito;
+
+    @OneToMany(mappedBy = "producto")
+    private List<Favoritos> favoritos;
 
     //Generamos un constructor vacio para JPA, clase de Java POJO
     public Productos() {
 
     }
-        //Constructor
-    public Productos(Integer idProductos, String nombreProducto, Integer precioProducto, Integer stock, Integer idCategoria, Integer descuento, String descripcionProducto) {
+
+    public Productos(Integer idProductos, String nombreProducto, Integer precioProducto, Integer stock, Integer descuento, String descripcion, Integer cant, Categoria idCategoria, List<ProductoTalla> productoTallas, List<Imagenes> imagenes, List<Carrito> carrito, List<Favoritos> favoritos) {
         this.idProductos = idProductos;
         this.nombreProducto = nombreProducto;
         this.precioProducto = precioProducto;
         this.stock = stock;
-        this.idCategoria = idCategoria;
         this.descuento = descuento;
-        this.descripcionProducto = descripcionProducto;
+        this.descripcion = descripcion;
+        this.cant = cant;
+        this.idCategoria = idCategoria;
+        this.productoTallas = productoTallas;
+        this.imagenes = imagenes;
+        this.carrito = carrito;
+        this.favoritos = favoritos;
     }
 
-    //getters and setters
     public Integer getIdProductos() {
         return idProductos;
     }
@@ -78,14 +100,6 @@ public class Productos {
         this.stock = stock;
     }
 
-    public Integer getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(Integer idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-
     public Integer getDescuento() {
         return descuento;
     }
@@ -94,14 +108,62 @@ public class Productos {
         this.descuento = descuento;
     }
 
-    public String getDescripcionProducto() {
-        return descripcionProducto;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripcionProducto(String descripcionProducto) {
-        this.descripcionProducto = descripcionProducto;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
-    //toString()
+
+    public Integer getCant() {
+        return cant;
+    }
+
+    public void setCant(Integer cant) {
+        this.cant = cant;
+    }
+
+    public Categoria getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Categoria idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public List<ProductoTalla> getProductoTallas() {
+        return productoTallas;
+    }
+
+    public void setProductoTallas(List<ProductoTalla> productoTallas) {
+        this.productoTallas = productoTallas;
+    }
+
+    public List<Imagenes> getImagenes() {
+        return imagenes;
+    }
+
+    public void setImagenes(List<Imagenes> imagenes) {
+        this.imagenes = imagenes;
+    }
+
+    public List<Carrito> getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(List<Carrito> carrito) {
+        this.carrito = carrito;
+    }
+
+    public List<Favoritos> getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(List<Favoritos> favoritos) {
+        this.favoritos = favoritos;
+    }
+
     @Override
     public String toString() {
         return "Productos{" +
@@ -109,35 +171,25 @@ public class Productos {
                 ", nombreProducto='" + nombreProducto + '\'' +
                 ", precioProducto=" + precioProducto +
                 ", stock=" + stock +
-                ", idCategoria=" + idCategoria +
                 ", descuento=" + descuento +
-                ", descripcionProducto='" + descripcionProducto + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", cant=" + cant +
+                ", idCategoria=" + idCategoria +
+                ", productoTallas=" + productoTallas +
+                ", imagenes=" + imagenes +
+                ", carrito=" + carrito +
+                ", favoritos=" + favoritos +
                 '}';
     }
 
-    //equals and hashcode
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Productos productos)) return false;
-        return Objects.equals(idProductos, productos.idProductos) && Objects.equals(nombreProducto, productos.nombreProducto) && Objects.equals(precioProducto, productos.precioProducto) && Objects.equals(stock, productos.stock) && Objects.equals(idCategoria, productos.idCategoria) && Objects.equals(descuento, productos.descuento) && Objects.equals(descripcionProducto, productos.descripcionProducto);
+        return Objects.equals(idProductos, productos.idProductos) && Objects.equals(nombreProducto, productos.nombreProducto) && Objects.equals(precioProducto, productos.precioProducto) && Objects.equals(stock, productos.stock) && Objects.equals(descuento, productos.descuento) && Objects.equals(descripcion, productos.descripcion) && Objects.equals(cant, productos.cant) && Objects.equals(idCategoria, productos.idCategoria) && Objects.equals(productoTallas, productos.productoTallas) && Objects.equals(imagenes, productos.imagenes) && Objects.equals(carrito, productos.carrito) && Objects.equals(favoritos, productos.favoritos);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProductos, nombreProducto, precioProducto, stock, idCategoria, descuento, descripcionProducto);
-    }
-    //...............
-    //Relacion de Productos con categorias N:1
-    // .................
-    @ManyToOne
-    @JoinColumn(name="productos_id_categorias")
-    private Categorias categorias;
-
-    public Categorias getCategorias() {
-        return categorias;
-    }
-
-    public void setCategorias(Categorias categorias) {
-        this.categorias = categorias;
+        return Objects.hash(idProductos, nombreProducto, precioProducto, stock, descuento, descripcion, cant, idCategoria, productoTallas, imagenes, carrito, favoritos);
     }
 }
