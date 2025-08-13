@@ -182,14 +182,5 @@ public class Productos {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Productos productos)) return false;
-        return Objects.equals(idProductos, productos.idProductos) && Objects.equals(nombreProducto, productos.nombreProducto) && Objects.equals(precioProducto, productos.precioProducto) && Objects.equals(stock, productos.stock) && Objects.equals(descuento, productos.descuento) && Objects.equals(descripcion, productos.descripcion) && Objects.equals(cant, productos.cant) && Objects.equals(idCategoria, productos.idCategoria) && Objects.equals(productoTallas, productos.productoTallas) && Objects.equals(imagenes, productos.imagenes) && Objects.equals(carrito, productos.carrito) && Objects.equals(favoritos, productos.favoritos);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idProductos, nombreProducto, precioProducto, stock, descuento, descripcion, cant, idCategoria, productoTallas, imagenes, carrito, favoritos);
-    }
 }
