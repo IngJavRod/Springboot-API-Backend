@@ -5,6 +5,8 @@
       <module name="backend" options="-parameters" />
       <module name="backend.main" options="-parameters" />
       <module name="backend.test" options="-parameters" />
+      <module name="com.thekingtiger.backend.main" options="-parameters" />
+      <module name="com.thekingtiger.backend.test" options="-parameters" />
     </option>
   </component>
 </project>
