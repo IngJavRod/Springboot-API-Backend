@@ -7,23 +7,22 @@ import java.util.Objects;
 
 @Embeddable
 public class FavoritosId implements Serializable {
-    private Integer idClientes;
+    private Integer idCliente;
     private Integer idProducto;
 
-    public FavoritosId() {
-    }
+    public FavoritosId() {}
 
-    public FavoritosId(Integer idClientes, Integer idProducto) {
-        this.idClientes = idClientes;
+    public FavoritosId(Integer idCliente, Integer idProducto) {
+        this.idCliente = idCliente;
         this.idProducto = idProducto;
     }
 
-    public Integer getIdClientes() {
-        return idClientes;
+    public Integer getIdCliente() {
+        return idCliente;
     }
 
-    public void setIdClientes(Integer idClientes) {
-        this.idClientes = idClientes;
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
     }
 
     public Integer getIdProducto() {
@@ -37,7 +36,7 @@ public class FavoritosId implements Serializable {
     @Override
     public String toString() {
         return "FavoritosId{" +
-                "idClientes=" + idClientes +
+                "idCliente=" + idCliente +
                 ", idProducto=" + idProducto +
                 '}';
     }
@@ -45,12 +44,12 @@ public class FavoritosId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof FavoritosId that)) return false;
-        return Objects.equals(idClientes, that.idClientes) && Objects.equals(idProducto, that.idProducto);
+        return Objects.equals(idCliente, that.idCliente) && Objects.equals(idProducto, that.idProducto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idClientes, idProducto);
+        return Objects.hash(idCliente, idProducto);
     }
 }
 

@@ -1,50 +1,49 @@
 package com.thekingtiger.backend.model;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "clientes")
 public class Clientes {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_clientes")
     private Integer idClientes;
 
-    @Column(name = "nom_cliente", length = 45, nullable = false)
+    @Column(name = "nom_cliente", nullable = false, length = 45)
     private String nomCliente;
 
-    @Column(name = "apellido_cliente", length = 45, nullable = false)
+    @Column(name = "apellido_cliente", nullable = false, length = 45)
     private String apellidoCliente;
 
-    @Column(name = "correo_cliente", length = 100, nullable = false, unique = true)
+    @Column(name = "correo_cliente", nullable = false, length = 100, unique = true)
     private String correoCliente;
 
-    @Column(name = "direccion_cliente", length = 100, nullable = false)
+    @Column(name = "direccion_cliente", length = 100)
     private String direccionCliente;
 
-    @Column(name = "telefono_cliente", length = 30, nullable = false)
+    @Column(name = "telefono_cliente", nullable = false, length = 30)
     private String telefonoCliente;
 
-    @Column(name = "password_cliente", length = 255, nullable = false)
+    @Column(name = "password_cliente", nullable = false, length = 255)
     private String passwordCliente;
 
-    // Relaciones
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "cliente-pedidos")
     private List<Pedidos> pedidos;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "cliente-favoritos")
     private List<Favoritos> favoritos;
 
+    public Clientes(){}
 
-    public Clientes() {
-    }
-
-    public Clientes(List<Favoritos> favoritos, Integer idClientes, String nomCliente, String apellidoCliente, String correoCliente, String direccionCliente, String telefonoCliente, String passwordCliente, List<Pedidos> pedidos) {
-        this.favoritos = favoritos;
+    public Clientes(Integer idClientes, String nomCliente, String apellidoCliente, String correoCliente, String direccionCliente, String telefonoCliente, String passwordCliente, List<Pedidos> pedidos, List<Favoritos> favoritos) {
         this.idClientes = idClientes;
         this.nomCliente = nomCliente;
         this.apellidoCliente = apellidoCliente;
@@ -53,14 +52,15 @@ public class Clientes {
         this.telefonoCliente = telefonoCliente;
         this.passwordCliente = passwordCliente;
         this.pedidos = pedidos;
+        this.favoritos = favoritos;
     }
 
-    public Integer getIdCliente() {
+    public Integer getIdClientes() {
         return idClientes;
     }
 
-    public void setIdCliente(Integer idClientes) {
-        this.idClientes = this.idClientes;
+    public void setIdClientes(Integer idClientes) {
+        this.idClientes = idClientes;
     }
 
     public String getNomCliente() {
@@ -130,7 +130,7 @@ public class Clientes {
     @Override
     public String toString() {
         return "Clientes{" +
-                "idCliente=" + idClientes +
+                "idClientes=" + idClientes +
                 ", nomCliente='" + nomCliente + '\'' +
                 ", apellidoCliente='" + apellidoCliente + '\'' +
                 ", correoCliente='" + correoCliente + '\'' +

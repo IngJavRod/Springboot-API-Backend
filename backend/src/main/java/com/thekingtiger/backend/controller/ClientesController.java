@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/db/v1/thekingtiger")
+@CrossOrigin(origins = "*")
 public class ClientesController {
     private final ClientesService clientesService;
 
