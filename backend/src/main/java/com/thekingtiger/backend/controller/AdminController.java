@@ -36,7 +36,7 @@ public class AdminController {
 
     }
 
-    @GetMapping("/email")
+    @GetMapping("/email-admin")
     public ResponseEntity<Admin> getByCorreoAdmin(@RequestParam String correoAdmin){
         Admin adminBycorreoAdmin = adminService.findByCorreoAdmin(correoAdmin);
         if (adminBycorreoAdmin == null){
@@ -54,7 +54,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("/login")
+    @PostMapping("/login-admin")
     public ResponseEntity<?> login(@RequestBody Admin loginRequest){
         Admin admin = adminService.findByCorreoAdmin(loginRequest.getCorreoAdmin());
 
