@@ -20,5 +20,15 @@ public class ProductosService {
     // Recuperar todos los productos
     public List<Productos> getProductos(){return productosRepository.findAll();}
 
+    //Crear producto
+
+    public Productos createProducto(Productos productos) {
+        return productosRepository.save(productos);
+    }
+
+    // Buscar producto por Id
+    public Productos getProductosById(Integer idProductos){
+        return productosRepository.findById(idProductos).orElse(null);
+    }
 
 }
