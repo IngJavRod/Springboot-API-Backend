@@ -3,8 +3,11 @@ package com.thekingtiger.backend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 // Indica que esta clase es una entidad JPA (se mapea a una tabla en la BD)
 @Entity

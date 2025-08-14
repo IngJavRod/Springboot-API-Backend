@@ -1,5 +1,6 @@
 package com.thekingtiger.backend.controller;
 
+import com.thekingtiger.backend.exceptions.ClienteNotFoundException;
 import com.thekingtiger.backend.model.Clientes;
 import com.thekingtiger.backend.service.ClientesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,13 @@ public class ClientesController {
         return new ResponseEntity<>(clienteBycorreoCliente, HttpStatus.OK);
     }
 
+    @GetMapping("/cliente/{idClientes}")
+    public ResponseEntity<Clientes> getByIdClientes(@PathVariable Integer idClientes){
+        return clientesService.findByIdClientes(idClientes)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     //Maepar inicio de sesion
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Clientes loginRequest){
@@ -61,5 +69,15 @@ public class ClientesController {
         }
 
         return ResponseEntity.ok(clientes);
+    }
+
+    // Mapear updateCliente
+    @PutMapping("/update-cliente/{idClientes}")
+    public ResponseEntity<Clientes> updateClientes(@RequestBody Clientes clientes, @PathVariable Integer idClientes){
+        try{
+            return ResponseEntity.status(HttpStatus.CREATED).body(clientesService.updateClientes(clientes,idClientes));
+        }catch(ClienteNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }
