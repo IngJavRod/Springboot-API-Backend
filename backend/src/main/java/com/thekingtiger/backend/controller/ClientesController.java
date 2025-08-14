@@ -20,6 +20,7 @@ public class ClientesController {
         this.clientesService = clientesService;
     }
 
+    //Mapear los clientes
     @GetMapping("/clientes")
     public List<Clientes> getClientes(){return clientesService.getClientes();}
 
@@ -32,5 +33,33 @@ public class ClientesController {
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(clientesService.addCliente(newCliente));
+    }
+
+    //Mapear ClienteId
+    @GetMapping("/email")
+    public ResponseEntity<Clientes> getByCorreoCliente(@RequestParam String correoCliente){
+        Clientes clienteBycorreoCliente = clientesService.findByCorreoCliente(correoCliente);
+        if (clienteBycorreoCliente == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        return new ResponseEntity<>(clienteBycorreoCliente, HttpStatus.OK);
+    }
+
+    //Maepar inicio de sesion
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Clientes loginRequest){
+        Clientes clientes = clientesService.findByCorreoCliente(loginRequest.getCorreoCliente());
+
+        if(clientes == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Correo no registrado");
+
+        }
+        // Comparar contraseñas
+        if (!clientes.getPasswordCliente().equals(loginRequest.getPasswordCliente())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
+        }
+
+        return ResponseEntity.ok(clientes);
     }
 }
