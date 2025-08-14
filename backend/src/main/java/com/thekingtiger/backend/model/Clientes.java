@@ -3,40 +3,59 @@ package com.thekingtiger.backend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
+// Indica que esta clase es una entidad JPA (se mapea a una tabla en la BD)
 @Entity
+// Define el nombre de la tabla en la base de datos
 @Table(name = "clientes")
 public class Clientes {
 
+    // Clave primaria de la tabla
     @Id
+    // Genera el valor de la clave primaria automáticamente con estrategia de incremento (auto-increment)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Especifica el nombre de la columna en la tabla
     @Column(name = "id_clientes")
     private Integer idClientes;
 
+    // Nombre del cliente (campo obligatorio, máximo 45 caracteres)
     @Column(name = "nom_cliente", nullable = false, length = 45)
     private String nomCliente;
 
+    // Apellido del cliente (campo obligatorio, máximo 45 caracteres)
     @Column(name = "apellido_cliente", nullable = false, length = 45)
     private String apellidoCliente;
 
+    // Correo del cliente (campo obligatorio, máximo 100 caracteres y único)
     @Column(name = "correo_cliente", nullable = false, length = 100, unique = true)
     private String correoCliente;
 
+    // Dirección del cliente (opcional, máximo 100 caracteres)
     @Column(name = "direccion_cliente", length = 100)
     private String direccionCliente;
 
+    // Teléfono del cliente (campo obligatorio, máximo 30 caracteres)
     @Column(name = "telefono_cliente", nullable = false, length = 30)
     private String telefonoCliente;
 
+    // Contraseña del cliente (campo obligatorio, hasta 255 caracteres, normalmente encriptada)
     @Column(name = "password_cliente", nullable = false, length = 255)
     private String passwordCliente;
 
+    // Relación uno-a-muchos con la tabla Pedidos (un cliente puede tener muchos pedidos)
+    // mappedBy indica que el campo "cliente" en la clase Pedidos es el dueño de la relación
+    // cascade = CascadeType.ALL → las operaciones sobre cliente se propagan a sus pedidos
+    // fetch = FetchType.LAZY → carga diferida, los pedidos no se cargan automáticamente
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value = "cliente-pedidos")
     private List<Pedidos> pedidos;
 
+    // Relación uno-a-muchos con la tabla Favoritos (un cliente puede tener muchos favoritos)
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value = "cliente-favoritos")
     private List<Favoritos> favoritos;
