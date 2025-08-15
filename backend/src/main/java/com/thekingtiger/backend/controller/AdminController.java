@@ -31,7 +31,6 @@ public class AdminController {
         if (emailAdmin != null){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
         return ResponseEntity.status(HttpStatus.CREATED).body(adminService.addAdmin(newAdmin));
 
     }
