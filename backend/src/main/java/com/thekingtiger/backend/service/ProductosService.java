@@ -1,6 +1,7 @@
 package com.thekingtiger.backend.service;
 
 
+import com.thekingtiger.backend.exceptions.ProductNotFoundException;
 import com.thekingtiger.backend.model.Productos;
 import com.thekingtiger.backend.repository.ProductosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,26 @@ public class ProductosService {
         return productosRepository.findById(idProductos).orElse(null);
     }
 
+    //Eliminar producto por ID
+    public void deleteProductById(Integer idProductos){
+        if(productosRepository.existsById(idProductos)){
+            productosRepository.deleteById(idProductos);
+        }else{
+            throw new ProductNotFoundException(idProductos);
+        }
+    }
+
+    //Editar producto
+    public Productos updateProductos(Productos productos, Integer idProductos){
+        return productosRepository.findById(idProductos)
+                .map(prodMap -> {
+                    prodMap.setPrecio(productos.getPrecio());
+                    prodMap.setChica(productos.getChica());
+                    prodMap.setMediana(productos.getMediana());
+                    prodMap.setGrande(productos.getGrande());
+                    prodMap.setUnitalla(productos.getUnitalla());
+                    return productosRepository.save(prodMap);
+                })
+                .orElseThrow(() -> new ProductNotFoundException(idProductos));
+    }
 }
